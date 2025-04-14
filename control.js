@@ -39,12 +39,12 @@ let path = require("path");
 const FileType = require('file-type');
 const { Sticker, createSticker, StickerTypes } = require('wa-sticker-formatter');
 //import chalk from 'chalk'
-const { verifierEtatJid , recupererActionJid } = require("./bdd/antilien");
-const { atbverifierEtatJid , atbrecupererActionJid } = require("./bdd/antibot");
+const { verifierEtatJid , recupererActionJid } = require("./fbase/antilien");
+const { atbverifierEtatJid , atbrecupererActionJid } = require("./fbase/antibot");
 let evt = require(__dirname + "/timnasa/timoth");
-const {isUserBanned , addUserToBanList , removeUserFromBanList} = require("./bdd/banUser");
-const  {addGroupToBanList,isGroupBanned,removeGroupFromBanList} = require("./bdd/banGroup");
-const {isGroupOnlyAdmin,addGroupToOnlyAdminList,removeGroupFromOnlyAdminList} = require("./bdd/onlyAdmin");
+const {isUserBanned , addUserToBanList , removeUserFromBanList} = require("./fbase/banUser");
+const  {addGroupToBanList,isGroupBanned,removeGroupFromBanList} = require("./fbase/banGroup");
+const {isGroupOnlyAdmin,addGroupToOnlyAdminList,removeGroupFromOnlyAdminList} = require("./fbase/onlyAdmin");
 //const //{loadCmd}=require("/timnasa/mesfonctions")
 let { reagir } = require(__dirname + "/timnasa/app");
 var session = conf.session.replace(/TIMNASA-TMD;;;=>/g,"");
@@ -52,7 +52,7 @@ const prefixe = conf.PREFIXE;
 const more = String.fromCharCode(8206)
 const readmore = more.repeat(4001)
 const BaseUrl = process.env.GITHUB_GIT;
-const adamsapikey = process.env.BOT_OWNER;
+const ezraapikey = process.env.BOT_OWNER;
 
 async function authentification() {
     try {
@@ -1018,7 +1018,7 @@ if (conf.AUDIO_REPLY === "yes") {
             }
             
             var membreGroupe = verifGroupe ? ms.key.participant : '';
-            const { getAllSudoNumbers } = require("./bdd/sudo");
+            const { getAllSudoNumbers } = require("./fbase/sudo");
             const nomAuteurMessage = ms.pushName;
             const abu1 = '255752593977';
             const abu2 = '255752593977';
@@ -1158,7 +1158,7 @@ if (conf.AUTO_READ === 'yes') {
             
  //---------------------------------------rang-count--------------------------------
              if (texte && auteurMessage.endsWith("s.whatsapp.net")) {
-  const { ajouterOuMettreAJourUserData } = require("./bdd/level"); 
+  const { ajouterOuMettreAJourUserData } = require("./fbase/level"); 
   try {
     await ajouterOuMettreAJourUserData(auteurMessage);
   } catch (e) {
@@ -1178,7 +1178,7 @@ if (conf.AUTO_READ === 'yes') {
             
                     if(superUser) {console.log('hummm') ; return ;} 
                     
-                    let mbd = require('./bdd/mention') ;
+                    let mbd = require('./fbase/mention') ;
             
                     let alldata = await mbd.recupererToutesLesValeurs() ;
             
@@ -1293,7 +1293,7 @@ if (conf.AUTO_READ === 'yes') {
                                        await fs.unlink("st1.webp");
 
                                     } else if(action === 'warn') {
-                                        const {getWarnCountByJID ,ajouterUtilisateurAvecWarnCount} = require('./bdd/warn') ;
+                                        const {getWarnCountByJID ,ajouterUtilisateurAvecWarnCount} = require('./fbase/warn') ;
 
                             let warn = await getWarnCountByJID(auteurMessage) ; 
                             let warnlimit = conf.WARN_COUNT
@@ -1328,7 +1328,7 @@ if (conf.AUTO_READ === 'yes') {
         
     
     catch (e) {
-        console.log("bdd err " + e);
+        console.log("fbase err " + e);
     }
     
 
@@ -1391,7 +1391,7 @@ if (conf.AUTO_READ === 'yes') {
                await fs.unlink("st1.webp");
 
             } else if(action === 'warn') {
-                const {getWarnCountByJID ,ajouterUtilisateurAvecWarnCount} = require('./bdd/warn') ;
+                const {getWarnCountByJID ,ajouterUtilisateurAvecWarnCount} = require('./fbase/warn') ;
 
     let warn = await getWarnCountByJID(auteurMessage) ; 
     let warnlimit = conf.WARN_COUNT
@@ -1483,7 +1483,7 @@ if (conf.AUTO_READ === 'yes') {
         //fin événement message
 
 /******** evenement groupe update ****************/
-const { recupevents } = require('./bdd/welcome'); 
+const { recupevents } = require('./fbase/welcome'); 
 
 zk.ev.on('group-participants.update', async (group) => {
     console.log(group);
@@ -1568,7 +1568,7 @@ zk.ev.on('group-participants.update', async (group) => {
         
     async  function activateCrons() {
         const cron = require('node-cron');
-        const { getCron } = require('./bdd/cron');
+        const { getCron } = require('./fbase/cron');
 
           let crons = await getCron();
           console.log(crons);
